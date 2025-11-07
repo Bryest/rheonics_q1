@@ -1,0 +1,26 @@
+{
+    "dashboard": {
+        "title": "Tablero",
+        "sensor_table": "Tabla de resumen de sensores"
+    },
+    "nav": {
+        "dashboard": "Panel",
+        "sensors": "Sensores",
+        "help": "Ayuda",
+        "account": "Cuenta",
+        "language": "Idioma"
+    },
+    "filters": {
+        "search": "Buscar…",
+        "connection": "Tipo de conexión",
+        "sensor_type": "Tipo de sensor"
+    },
+    "actions": {
+        "add_sensor": "Agregar sensor +"
+    },
+    "kpi": {
+        "data": "Datos",
+        "connected": "Sensores conectados",
+        "events": "Eventos creados"
+    }
+}

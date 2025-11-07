@@ -1,0 +1,26 @@
+{
+    "dashboard": {
+        "title": "Dashboard",
+        "sensor_table": "Sensor overview table"
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "sensors": "Sensors",
+        "help": "Help",
+        "account": "Account",
+        "language": "Language"
+    },
+    "filters": {
+        "search": "Search…",
+        "connection": "Connection Type",
+        "sensor_type": "Sensor Type"
+    },
+    "actions": {
+        "add_sensor": "Add Sensor +"
+    },
+    "kpi": {
+        "data": "Data",
+        "connected": "Sensors connected",
+        "events": "Events created"
+    }
+}
