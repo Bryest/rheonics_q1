@@ -8,7 +8,7 @@
         "sensors": "Sensors",
         "help": "Help",
         "account": "Account",
-        "language": "Language"
+        "language": "Language (EN/ES)"
     },
     "filters": {
         "search": "Search…",
@@ -21,6 +21,18 @@
     "kpi": {
         "data": "Data",
         "connected": "Sensors connected",
-        "events": "Events created"
+        "events": "Events created",
+        "measurements": "Measurements",
+        "viscosity": "Viscosity",
+        "temperature": "Temperature",
+        "density": "Density",
+        "pressure": "Pressure"
+    },
+    "table": {
+        "sensor": "Sensor",
+        "serial": "Serial number",
+        "status": "Status",
+        "action": "Action",
+        "edit": "Edit"
     }
 }

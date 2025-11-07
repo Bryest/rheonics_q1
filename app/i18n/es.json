@@ -8,7 +8,7 @@
         "sensors": "Sensores",
         "help": "Ayuda",
         "account": "Cuenta",
-        "language": "Idioma"
+        "language": "Idioma (EN/ES)"
     },
     "filters": {
         "search": "Buscar…",
@@ -21,6 +21,18 @@
     "kpi": {
         "data": "Datos",
         "connected": "Sensores conectados",
-        "events": "Eventos creados"
+        "events": "Eventos creados",
+        "measurements": "Mediciones",
+        "viscosity": "Viscosidad",
+        "temperature": "Temperatura",
+        "density": "Densidad",
+        "pressure": "Presión"
+    },
+    "table": {
+        "sensor": "Sensor",
+        "serial": "Número de serie",
+        "status": "Estado",
+        "action": "Acción",
+        "edit": "Editar"
     }
 }

@@ -1,24 +1,26 @@
-# app/ui/table.py
 from PySide6.QtWidgets import (
     QWidget, QFrame, QLabel,
     QHBoxLayout, QVBoxLayout, QPushButton
 )
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon, QColor, QPainter, QBrush
+from PySide6.QtGui import QIcon, QColor, QPainter
 
 
+# ------------------------------------------------------------
+# Status Tag
+# ------------------------------------------------------------
 class StatusTag(QLabel):
-    """Small rounded label styled like Figma tags."""
     def __init__(self, text: str, color: str):
         super().__init__(text)
         self.setObjectName("StatusTag")
         self.setProperty("tagColor", color)
         self.setAlignment(Qt.AlignCenter)
-        self.setFixedHeight(26)
+        self.setFixedHeight(28)
+
         self.setStyleSheet("""
             QLabel#StatusTag {
                 padding: 4px 12px;
-                border-radius: 12px;
+                border-radius: 14px;
                 font-size: 13px;
                 font-weight: 500;
             }
@@ -28,49 +30,48 @@ class StatusTag(QLabel):
         """)
 
 
+# ------------------------------------------------------------
+# Toggle Switch
+# ------------------------------------------------------------
 class Toggle(QWidget):
-    """Visual toggle only (no state changes)."""
     def __init__(self):
         super().__init__()
         self.setFixedSize(42, 22)
         self.checked = False
         self.setCursor(Qt.PointingHandCursor)
-        self.setStyleSheet("""
-            QWidget {
-                background: #D0D4DA;
-                border-radius: 11px;
-            }
-        """)
 
     def paintEvent(self, event):
         p = QPainter(self)
         p.setRenderHint(QPainter.Antialiasing)
 
-        # track
-        track_color = QColor("#D0D4DA")
-        p.setBrush(track_color)
+        # Background track
+        track_color = "#4A90E2" if self.checked else "#D0D4DA"
+        p.setBrush(QColor(track_color))
         p.setPen(Qt.NoPen)
         p.drawRoundedRect(self.rect(), 11, 11)
 
-        # knob
-        knob_color = QColor("#FFFFFF")
-        x = 2 if not self.checked else 18
-        p.setBrush(knob_color)
-        p.drawEllipse(x, 2, 18, 18)
+        # Knob
+        knob_x = 20 if self.checked else 2
+        p.setBrush(QColor("white"))
+        p.drawEllipse(knob_x, 2, 18, 18)
 
     def mousePressEvent(self, event):
         self.checked = not self.checked
         self.update()
 
 
+# ------------------------------------------------------------
+# Edit Button
+# ------------------------------------------------------------
 class EditButton(QPushButton):
-    """Blue edit button with pencil icon."""
     def __init__(self):
         super().__init__()
         self.setCursor(Qt.PointingHandCursor)
         self.setFixedSize(32, 32)
+
         self.setIcon(QIcon("app/assets/edit.png"))
         self.setIconSize(QSize(20, 20))
+
         self.setStyleSheet("""
             QPushButton {
                 background: transparent;
@@ -83,59 +84,98 @@ class EditButton(QPushButton):
         """)
 
 
+# ------------------------------------------------------------
+# Utility wrapper for alignment
+# ------------------------------------------------------------
+def cell(widget, align=Qt.AlignLeft):
+    w = QWidget()
+    layout = QHBoxLayout(w)
+    layout.setContentsMargins(0, 0, 0, 0)
+    layout.setAlignment(align)
+    layout.addWidget(widget)
+    return w
+
+
+# ------------------------------------------------------------
+# Table Row
+# ------------------------------------------------------------
 class TableRow(QFrame):
     def __init__(self, sensor, serial, status, color, shaded=False):
         super().__init__()
-        self.setObjectName("TableRow")
 
-        # Minimum Height
-        self.setMinimumHeight(48)
+        self.setMinimumHeight(56)
 
-        # Background shading
         if shaded:
-            self.setStyleSheet("border-radius: 12px;")
+            self.setStyleSheet("background: #F4F6FA; border-radius: 10px;")
         else:
             self.setStyleSheet("background: transparent;")
 
         row = QHBoxLayout(self)
-        # padding vertical
-        row.setContentsMargins(16, 14, 16, 14)
-        row.setSpacing(10)
+        row.setContentsMargins(20, 12, 20, 12)
+        row.setSpacing(0)
 
-        # column width behavior
-        row.addWidget(QLabel(sensor), 2)
-        row.addWidget(QLabel(serial), 3)
-        row.addWidget(StatusTag(status, color), 2)
-        row.addWidget(Toggle(), 1)
-        row.addWidget(EditButton(), 1)
+        # SAME STRETCH FACTORS AS HEADER
+        row.addWidget(cell(QLabel(sensor)), 2)
+        row.addWidget(cell(QLabel(serial)), 3)
+        row.addWidget(cell(StatusTag(status, color), Qt.AlignCenter), 2)
+
+        # ACTION column now uses Toggle only
+        row.addWidget(cell(Toggle(), Qt.AlignCenter), 2)
+
+        # Edit icon
+        row.addWidget(cell(EditButton(), Qt.AlignCenter), 1)
 
 
-
+# ------------------------------------------------------------
+# Table
+# ------------------------------------------------------------
 class SensorTable(QFrame):
-    """The full Figma-style table block."""
-    def __init__(self, title):
+    def __init__(self, title, i18n):
         super().__init__()
+        self.i18n = i18n
         self.setObjectName("Card")
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(24, 24, 24, 24)
-        layout.setSpacing(12)
+        layout.setSpacing(14)
 
-        # title
-        lbl = QLabel(title)
-        lbl.setStyleSheet("font-size: 18px; font-weight: 600;")
-        layout.addWidget(lbl)
+        # Title
+        self.lbl_title = QLabel(title)
+        self.lbl_title.setStyleSheet("font-size: 18px; font-weight: 600;")
+        layout.addWidget(self.lbl_title)
 
-        # header
+        # Header
         header = QHBoxLayout()
-        for name in ["Sensor", "Serial number", "Status", "Action", "Edit"]:
-            h = QLabel(name)
-            h.setStyleSheet("color: #8A8F99; font-size: 14px;")
-            header.addWidget(h, 1)
-        layout.addLayout(header)
+        header.setContentsMargins(20, 0, 20, 0)
+        header.setSpacing(0)
 
-        # rows
-        layout.addWidget(TableRow("SRD", "SRD-000-AC00", "Logging", "blue", shaded=True))
-        layout.addWidget(TableRow("DVM", "DVM-000-GG00", "Complete", "green", shaded=False))
-        layout.addWidget(TableRow("SRV", "SRV-000-RT00", "Pending", "gray", shaded=True))
-        layout.addWidget(TableRow("DVP", "DVP-000-WD00", "Logging", "blue", shaded=False))
+        self.headers = {
+            "sensor": QLabel(),
+            "serial": QLabel(),
+            "status": QLabel(),
+            "action": QLabel(),
+            "edit": QLabel()
+        }
+
+        header.addWidget(cell(self.headers["sensor"]), 2)
+        header.addWidget(cell(self.headers["serial"]), 3)
+        header.addWidget(cell(self.headers["status"], Qt.AlignCenter), 2)
+        header.addWidget(cell(self.headers["action"], Qt.AlignCenter), 2)
+        header.addWidget(cell(self.headers["edit"], Qt.AlignCenter), 1)
+
+        layout.addLayout(header)
+        self.refresh_header()
+
+        # DATA ROWS
+        layout.addWidget(TableRow("SRD", "SRD-000-AC00", "Logging", "blue", True))
+        layout.addWidget(TableRow("DVM", "DVM-000-GG00", "Complete", "green", False))
+        layout.addWidget(TableRow("SRV", "SRV-000-RT00", "Pending", "gray", True))
+        layout.addWidget(TableRow("DVP", "DVP-000-WD00", "Logging", "blue", False))
+
+    def refresh_header(self):
+        self.lbl_title.setText(self.i18n.t("dashboard.sensor_table"))
+        self.headers["sensor"].setText(self.i18n.t("table.sensor"))
+        self.headers["serial"].setText(self.i18n.t("table.serial"))
+        self.headers["status"].setText(self.i18n.t("table.status"))
+        self.headers["action"].setText(self.i18n.t("table.action"))
+        self.headers["edit"].setText(self.i18n.t("table.edit"))
