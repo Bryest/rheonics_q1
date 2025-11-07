@@ -3,12 +3,18 @@
         "title": "Dashboard",
         "sensor_table": "Sensor overview table"
     },
+    "chart": {
+        "title": "Total Data from sensors",
+        "var1": "This year",
+        "var2": "Last year"
+    },
     "nav": {
         "dashboard": "Dashboard",
         "sensors": "Sensors",
         "help": "Help",
         "account": "Account",
-        "language": "Language (EN/ES)"
+        "language": "Language (EN/ES)",
+        "theme": "Theme (Light/Dark)"
     },
     "filters": {
         "search": "Search…",

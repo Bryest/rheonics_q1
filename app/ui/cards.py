@@ -23,13 +23,14 @@ class HoverCard(QFrame):
         col.setContentsMargins(16, 12, 16, 12)
 
         self.label_title = QLabel(title)
-        self.label_title.setObjectName("Small")
+        self.label_title.setObjectName("KPI_Title")   
 
         self.label_value = QLabel(str(value))
-        self.label_value.setObjectName("KPI")
+        self.label_value.setObjectName("KPI_Value")  
 
         col.addWidget(self.label_title)
         col.addWidget(self.label_value)
+
 
     # Hover starts
     def enterEvent(self, event):

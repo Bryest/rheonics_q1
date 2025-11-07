@@ -3,12 +3,18 @@
         "title": "Tablero",
         "sensor_table": "Tabla de resumen de sensores"
     },
+    "chart": {
+        "title": "Datos totales de los sensores",
+        "var1": "Este año",
+        "var2": "Año anterior"
+    },
     "nav": {
         "dashboard": "Panel",
         "sensors": "Sensores",
         "help": "Ayuda",
         "account": "Cuenta",
-        "language": "Idioma (EN/ES)"
+        "language": "Idioma (EN/ES)",
+        "theme": "Tema (Claro/Oscuro)"
     },
     "filters": {
         "search": "Buscar…",

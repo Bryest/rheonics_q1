@@ -106,7 +106,7 @@ class TableRow(QFrame):
         self.setMinimumHeight(56)
 
         if shaded:
-            self.setStyleSheet("background: #F4F6FA; border-radius: 10px;")
+            self.setStyleSheet("background: transparent; border-radius: 10px;")
         else:
             self.setStyleSheet("background: transparent;")
 
