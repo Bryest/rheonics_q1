@@ -1,4 +1,13 @@
-/* MAIN WINDOW */
+/* BUTTON PRIMARY */
+#AddSensor {
+    background: #0B66C3;
+    color: #FFFFFF;
+}
+#AddSensor:hover {
+    background: #0857A5;
+}
+
+/* WINDOW */
 QMainWindow {
     background: #F5F7FA;
     color: #1A1A1A;
@@ -10,75 +19,96 @@ QMainWindow {
     border-right: 1px solid #E5E5E5;
 }
 
-/* Botones primarios */
+/* CARDS */
+#Card, QFrame#Card {
+    background: #FFFFFF;
+    border: 1px solid #EEE;
+}
+
+/* TEXT */
+QLabel { color: #1A1A1A; }
+QLabel#H1 { color: #1A1A1A; }
+QLabel#Small { color: #555; }
+
+#MeasureValue { color: #333; }
+
+/* MEASUREMENT PILL */
+#MeasurePill[kind="visc"]  { background: #E4EEF9; color: #1A1A1A; }
+#MeasurePill[kind="temp"]  { background: #FFF2CC; color: #1A1A1A; }
+#MeasurePill[kind="dens"]  { background: #E5F4EC; color: #1A1A1A; }
+#MeasurePill[kind="pres"]  { background: #EFE9FF; color: #1A1A1A; }
+
+/* BUTTONS */
+QPushButton {
+    background: #FFFFFF;
+    color: #1A1A1A;
+    border: 1px solid #DADADA;
+}
+QPushButton:hover { background: #EFEFEF; }
+
+/* NAV */
 #NavPrimary {
     background: #FFFFFF;
     color: #1A1A1A;
-    border-radius: 8px;
-    padding: 10px 12px;
     border: 1px solid #D5D5D5;
 }
 #NavPrimary:hover { background: #EDEDED; }
 
-/* Secundarios */
 #NavSecondary {
     background: #FAFAFA;
     color: #444;
-    border-radius: 8px;
-    padding: 10px 12px;
     border: 1px solid #E0E0E0;
 }
 #NavSecondary:hover { background: #E8E8E8; }
 
-/* Botón Rheonics (ghost) */
-#Ghost {
+/* TABLE */
+QTableWidget {
     background: #FFFFFF;
     color: #1A1A1A;
-    border-radius: 8px;
-    padding: 10px 12px;
-    border: 1px solid #DADADA;
+    border-color: #EEE;
 }
-#Ghost:hover { background: #EFEFEF; }
-
-/* CARDS */
-#Card {
+QHeaderView::section {
     background: #FFFFFF;
-    border-radius: 12px;
+    color: #1A1A1A;
+}
+QTableWidget::item:selected { background: #E8E8E8; }
+
+/* INPUTS */
+QLineEdit {
+    background: #FFFFFF;
+    color: #1A1A1A;
+    border-color: #CCC;
+}
+QComboBox {
+    background: #FFFFFF;
+    color: #1A1A1A;
+    border-color: #CCC;
+}
+QComboBox QAbstractItemView {
+    background: #FFFFFF;
+    color: #1A1A1A;
+}
+
+/* SCROLLBAR */
+QScrollBar:vertical { background: #F0F0F0; }
+QScrollBar::handle:vertical { background: #CCC; }
+QScrollBar::handle:vertical:hover { background: #BBB; }
+
+/* HOVER CARD COLORS (LIGHT THEME) */
+#HoverCard {
+    background: #FFFFFF;
+    border: 1px solid #E6E6E6;
+}
+
+#HoverCard[hover="true"] {
+    background: #F9F9F9;
+}
+
+#ChartFrame {
+    background: #FFFFFF;
     border: 1px solid #EEE;
 }
 
-/* TEXTOS */
-QLabel { color: #1A1A1A; }
-
-QLabel#H1 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1A1A1A;
-}
-QLabel#Small {
-    font-size: 14px;
-    color: #555;
-}
-
-/* Measurements */
-#MeasureValue {
-    font-size: 12px;
-    color: #333333;
-}
-#MeasurePill {
-    border-radius: 10px;
-    padding: 6px 12px;
-    color: #111;     /* Negro para contraste, mismo que Dark */
-}
-
-#KPI_Title {
-    font-size: 14px;
-    font-weight: 500;
-    color: #4A4A4A;
-}
-
-#KPI_Value {
-    font-size: 18px;
-    font-weight: 600;
+#ChartTooltip QLabel#ChartTooltipLabel {
     color: #1A1A1A;
 }

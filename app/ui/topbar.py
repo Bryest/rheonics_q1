@@ -34,7 +34,8 @@ class TopBar(QWidget):
 
         # Add sensor button
         self.add_btn = QPushButton(self.i18n.t("actions.add_sensor"))
-
+        self.add_btn.setObjectName("AddSensor")
+        
         row.addWidget(self.search, 3)
         row.addWidget(self.conn, 1)
         row.addWidget(self.type, 1)

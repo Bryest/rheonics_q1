@@ -2,59 +2,43 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QFrame
 from PySide6.QtCore import Qt
 
 
-# ------------------------------------------------------------
-# Hoverable KPI Card
-# ------------------------------------------------------------
+def _repolish(widget: QWidget) -> None:
+    # Ensure QSS re-applies when dynamic properties change
+    widget.style().unpolish(widget)
+    widget.style().polish(widget)
+    widget.update()
+
+
 class HoverCard(QFrame):
+    """Hoverable KPI card with theme-driven styles (#HoverCard)."""
     def __init__(self, title: str, value: str):
         super().__init__()
         self.setObjectName("HoverCard")
-
-        self.default_bg = "#F5F9FF"
-        self.hover_bg = "#FFFFFF"
-        self.setStyleSheet(f"""
-            QFrame#HoverCard {{
-                background: {self.default_bg};
-                border-radius: 12px;
-            }}
-        """)
+        self.setProperty("hover", False)
 
         col = QVBoxLayout(self)
         col.setContentsMargins(16, 12, 16, 12)
 
         self.label_title = QLabel(title)
-        self.label_title.setObjectName("KPI_Title")   
+        self.label_title.setObjectName("KPI_Title")
 
         self.label_value = QLabel(str(value))
-        self.label_value.setObjectName("KPI_Value")  
+        self.label_value.setObjectName("KPI_Value")
 
         col.addWidget(self.label_title)
         col.addWidget(self.label_value)
 
-
-    # Hover starts
     def enterEvent(self, event):
-        self.setStyleSheet(f"""
-            QFrame#HoverCard {{
-                background: {self.hover_bg};
-                border-radius: 12px;
-            }}
-        """)
+        self.setProperty("hover", True)
+        _repolish(self)
 
-    # Hover ends
     def leaveEvent(self, event):
-        self.setStyleSheet(f"""
-            QFrame#HoverCard {{
-                background: {self.default_bg};
-                border-radius: 12px;
-            }}
-        """)
+        self.setProperty("hover", False)
+        _repolish(self)
 
 
-# ------------------------------------------------------------
-# All KPI Cards (Data, Sensors connected, Events created)
-# ------------------------------------------------------------
 class StatCards(QWidget):
+    """Three KPI cards row: Data / Connected / Events."""
     def __init__(self, i18n):
         super().__init__()
         self.i18n = i18n
@@ -63,7 +47,6 @@ class StatCards(QWidget):
         row.setContentsMargins(0, 0, 0, 0)
         row.setSpacing(12)
 
-        # Create 3 hoverable cards
         self.c1 = HoverCard(self.i18n.t("kpi.data"), "0")
         self.c2 = HoverCard(self.i18n.t("kpi.connected"), "0")
         self.c3 = HoverCard(self.i18n.t("kpi.events"), "0")

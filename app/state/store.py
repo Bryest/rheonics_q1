@@ -1,6 +1,5 @@
 from typing import Callable, List
 
-
 class Store:
     """Tiny reactive store for language + theme + sidebar state."""
 
@@ -10,7 +9,7 @@ class Store:
         self._collapsed = False
         self._theme = "light"  # light | dark
 
-    # Subscriptions
+    # Subscriptions ---------------------
     def subscribe(self, cb: Callable):
         self._subs.append(cb)
 

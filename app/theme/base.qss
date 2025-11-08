@@ -1,0 +1,110 @@
+/* ========= BASE STRUCTURE / DIMENSIONS / TYPOGRAPHY ========= */
+
+/* CARDS */
+#Card, QFrame#Card {
+    border-radius: 12px;
+}
+
+/* TYPOGRAPHY */
+QLabel#H1 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+QLabel#Small {
+    font-size: 14px;
+}
+
+/* MEASUREMENTS */
+#MeasureValue {
+    font-size: 12px;
+}
+
+#MeasurePill {
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* BUTTONS */
+QPushButton {
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#Ghost {
+    border: none;
+}
+
+/* NAV BUTTONS */
+QPushButton#NavPrimary,
+QPushButton#NavSecondary {
+    border-radius: 8px;
+}
+
+/* TABLE */
+QTableWidget {
+    border: 1px solid;
+}
+QHeaderView::section {
+    padding: 6px;
+    border: none;
+}
+
+/* INPUTS */
+QLineEdit, QComboBox {
+    border: 1px solid;
+    border-radius: 6px;
+}
+
+/* SCROLLBAR */
+QScrollBar:vertical { width: 10px; }
+QScrollBar::handle:vertical { border-radius: 5px; }
+
+/* KPI TEXT */
+#KPI_Title {
+    font-size: 14px;
+    font-weight: 500;
+}
+#KPI_Value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#HoverCard {
+    border-radius: 12px;
+    padding: 12px;
+}
+
+/* Title + value (inherits theme colors) */
+#HoverCard QLabel#KPI_Title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#HoverCard QLabel#KPI_Value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* CHART CONTAINER STRUCTURE */
+#ChartContainer {
+    border-radius: 12px;
+    padding: 26px;
+}
+
+/* Tooltip base (colors replaced by theme files) */
+#ChartTooltip {
+    border-radius: 8px;
+    padding: 0px 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#TableContainer {
+    border-radius: 12px;
+    margin-top: 5px;
+    min-height: 300px;
+}

@@ -1,27 +1,22 @@
 from PySide6.QtCharts import (
     QChart, QChartView, QLineSeries, QValueAxis, QAreaSeries
 )
-from PySide6.QtCore import Qt, QPointF
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPen, QPainter, QBrush, QLinearGradient
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame
 
 
 # ------------------------------------------------------------
-# Tooltip
+# Tooltip (QSS themed, no inline CSS)
 # ------------------------------------------------------------
 class ChartTooltip(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setStyleSheet("""
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #DDD;
-            padding: 0px 12px;
-            font-size: 14px;
-            font-weight: 600;
-        """)
+        self.setObjectName("ChartTooltip")
+
         self.label = QLabel("0", self)
-        self.label.setStyleSheet("background: transparent;")
+        self.label.setObjectName("ChartTooltipLabel")
+
         self.hide()
 
     def set_value(self, v):
@@ -30,11 +25,12 @@ class ChartTooltip(QWidget):
 
 
 # ------------------------------------------------------------
-# Line Chart Widget (i18n + crosshair + tooltip)
+# Line Chart Widget (theme-driven)
 # ------------------------------------------------------------
 class LineChartWidget(QWidget):
     def __init__(self, i18n):
         super().__init__()
+        self.setObjectName("ChartContainer")
         self.i18n = i18n
 
         # Title
@@ -66,13 +62,13 @@ class LineChartWidget(QWidget):
         self.area.setBrush(QBrush(gradient))
         self.area.setPen(Qt.NoPen)
 
-        # Chart container
+        # Chart
         self.chart = QChart()
         self.chart.addSeries(self.area)
         self.chart.addSeries(self.series_main)
         self.chart.addSeries(self.series_alt)
 
-        # Hide area marker
+        # Hide shaded legend marker
         for m in self.chart.legend().markers(self.area):
             m.setVisible(False)
 
@@ -97,26 +93,33 @@ class LineChartWidget(QWidget):
         self.view.setMouseTracking(True)
         self.view.viewport().setMouseTracking(True)
 
-        # Events
-        self.view.mouseMoveEvent = self._mouse_move
-        self.view.leaveEvent = self._mouse_leave
+        # Chart frame (needed for QSS)
+        self.chart_frame = QFrame()
+        self.chart_frame.setObjectName("ChartFrame")
+
+        frame_layout = QVBoxLayout(self.chart_frame)
+        frame_layout.setContentsMargins(0, 0, 0, 0)
+        frame_layout.addWidget(self.view)
 
         # Tooltip
         self.tooltip = ChartTooltip()
         self.chart.scene().addWidget(self.tooltip)
         self.crosshair_scene_x = None
 
+        # Events
+        self.view.mouseMoveEvent = self._mouse_move
+        self.view.leaveEvent = self._mouse_leave
+
         # Layout
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.title)
-        layout.addWidget(self.view)
+        layout.addWidget(self.chart_frame)
 
-        # Apply translations
         self.refresh_texts(self.i18n)
 
     # ------------------------------------------------------------
-    # i18n refresh
+    # i18n
     # ------------------------------------------------------------
     def refresh_texts(self, i18n):
         self.i18n = i18n
@@ -126,7 +129,7 @@ class LineChartWidget(QWidget):
         self.chart.legend().update()
 
     # ------------------------------------------------------------
-    # Data loader
+    # Data
     # ------------------------------------------------------------
     def set_series(self, current, previous):
         self.series_main.clear()
@@ -144,10 +147,7 @@ class LineChartWidget(QWidget):
         self.axisY.setRange(0, max(max(current), max(previous)))
 
     # ------------------------------------------------------------
-    # Mouse tracking handlers
-    # ------------------------------------------------------------
-    # ------------------------------------------------------------
-    # Mouse interaction for tooltip and crosshair
+    # Mouse event handlers
     # ------------------------------------------------------------
     def _mouse_move(self, event):
         scene_pos = self.view.mapToScene(event.pos())
@@ -170,8 +170,10 @@ class LineChartWidget(QWidget):
         pos_view = self.view.mapFromScene(pos_scene)
 
         self.tooltip.set_value(value)
-        self.tooltip.move(pos_view.x() - self.tooltip.width() // 2,
-                          pos_view.y() - 35)
+        self.tooltip.move(
+            pos_view.x() - self.tooltip.width() // 2,
+            pos_view.y() - 35
+        )
         self.tooltip.show()
 
         self.crosshair_scene_x = pos_scene.x()
