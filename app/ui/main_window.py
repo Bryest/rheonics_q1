@@ -157,32 +157,6 @@ class MainWindow(QMainWindow):
         self.store.subscribe(self._on_state_change)
 
     # ------------------------------------------------------------
-    # Responsive breakpoints
-    # ------------------------------------------------------------
-    def resizeEvent(self, event):
-        width = self.width()
-
-        if width < 1100 and self.current_layout == "H":
-            self._switch_to_vertical()
-
-        elif width >= 1100 and self.current_layout == "V":
-            self._switch_to_horizontal()
-
-        super().resizeEvent(event)
-
-    def _switch_to_vertical(self):
-        parent = self.chart_layout_h.parent()
-        parent.removeItem(self.chart_layout_h)
-        parent.addLayout(self.chart_layout_v)
-        self.current_layout = "V"
-
-    def _switch_to_horizontal(self):
-        parent = self.chart_layout_v.parent()
-        parent.removeItem(self.chart_layout_v)
-        parent.addLayout(self.chart_layout_h)
-        self.current_layout = "H"
-
-    # ------------------------------------------------------------
     # Load KPI / Chart
     # ------------------------------------------------------------
     def _load_data(self):
